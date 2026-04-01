@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner fromCurrency, toCurrency;
     Button convertBtn;
     TextView result;
+    Button settingsBtn;
 
     String[] currencies = {"INR","USD","EUR","JPY"};
 
@@ -36,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
         fromCurrency.setAdapter(adapter);
         toCurrency.setAdapter(adapter);
+
+        settingsBtn = findViewById(R.id.settingsBtn);
+
+        settingsBtn.setOnClickListener(v ->
+                startActivity(new Intent(
+                        MainActivity.this,
+                        SettingsActivity.class)));
 
         convertBtn.setOnClickListener(v -> convert());
     }
