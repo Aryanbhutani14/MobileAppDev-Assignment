@@ -3,13 +3,17 @@ package com.example.currencyconverter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText amount;
-    Spinner from, to;
-    Button convert;
+    Spinner fromCurrency, toCurrency;
+    Button convertBtn;
     TextView result;
 
     String[] currencies = {"INR","USD","EUR","JPY"};
@@ -20,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         amount = findViewById(R.id.amount);
-        from = findViewById(R.id.fromCurrency);
-        to = findViewById(R.id.toCurrency);
-        convert = findViewById(R.id.convertBtn);
+        fromCurrency = findViewById(R.id.fromCurrency);
+        toCurrency = findViewById(R.id.toCurrency);
+        convertBtn = findViewById(R.id.convertBtn);
         result = findViewById(R.id.result);
 
         ArrayAdapter<String> adapter =
@@ -30,39 +34,37 @@ public class MainActivity extends AppCompatActivity {
                         android.R.layout.simple_spinner_dropdown_item,
                         currencies);
 
-        from.setAdapter(adapter);
-        to.setAdapter(adapter);
+        fromCurrency.setAdapter(adapter);
+        toCurrency.setAdapter(adapter);
 
-        convert.setOnClickListener(v -> convert());
+        convertBtn.setOnClickListener(v -> convert());
     }
 
     private void convert(){
 
         double amt = Double.parseDouble(amount.getText().toString());
 
-        String fromCur = from.getSelectedItem().toString();
-        String toCur = to.getSelectedItem().toString();
+        String from = fromCurrency.getSelectedItem().toString();
+        String to = toCurrency.getSelectedItem().toString();
 
         double inr = 0;
 
-        switch (fromCur){
-
+        switch (from){
             case "USD": inr = amt * 93; break;
             case "EUR": inr = amt * 108; break;
             case "JPY": inr = amt * 0.59; break;
             default: inr = amt;
         }
 
-        double resultValue = 0;
+        double output = 0;
 
-        switch (toCur){
-
-            case "USD": resultValue = inr / 93; break;
-            case "EUR": resultValue = inr / 108; break;
-            case "JPY": resultValue = inr / 0.59; break;
-            default: resultValue = inr;
+        switch (to){
+            case "USD": output = inr / 93; break;
+            case "EUR": output = inr / 108; break;
+            case "JPY": output = inr / 0.59; break;
+            default: output = inr;
         }
 
-        result.setText("Result: " + resultValue + " " + toCur);
+        result.setText("Result: " + String.format("%.2f", output) + " " + to);
     }
 }
