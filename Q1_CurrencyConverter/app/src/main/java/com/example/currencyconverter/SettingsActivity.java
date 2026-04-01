@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    Button lightBtn, darkBtn;
+    Button lightBtn, darkBtn, backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +17,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         lightBtn = findViewById(R.id.lightBtn);
         darkBtn = findViewById(R.id.darkBtn);
+        backBtn = findViewById(R.id.backBtn);
+
+        backBtn.setOnClickListener(v -> finish());
 
         lightBtn.setOnClickListener(v ->
                 AppCompatDelegate.setDefaultNightMode(
