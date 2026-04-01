@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+
     <Button
         android:id="@+id/convertBtn"
         android:text="Convert"
@@ -32,6 +33,13 @@
         android:textColor="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/settingsBtn"
+        android:text="Settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#123"/>
 
     <TextView
         android:id="@+id/result"
