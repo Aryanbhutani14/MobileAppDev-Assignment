@@ -4,24 +4,31 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:padding="16dp"
+    android:background="#FAFAFA"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <Button
         android:id="@+id/openFileBtn"
         android:text="Open Audio"
+        android:textColor="#000000"
+        android:backgroundTint="#BCC5CA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/urlInput"
         android:hint="Enter Video URL"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/openUrlBtn"
         android:text="Open Video"
+        android:textColor="#000000"
+        android:backgroundTint="#9E6161"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -29,55 +36,62 @@
         android:id="@+id/mediaLabel"
         android:text="No media selected"
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
+        android:textColor="#555555"
+        android:layout_marginTop="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    
+
     <VideoView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:background="#000000"/>
+
+    <SeekBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"/>
 
     <LinearLayout
         android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
+        <ImageButton
             android:id="@+id/playBtn"
-            android:text="Play"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:src="@android:drawable/ic_media_play"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:tint="#333333"
+            android:background="@android:color/transparent"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/pauseBtn"
-            android:text="Pause"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:src="@android:drawable/ic_media_pause"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:tint="#333333"
+            android:background="@android:color/transparent"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
+        <ImageButton
             android:id="@+id/stopBtn"
-            android:text="Stop"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:src="@android:drawable/ic_media_stop"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:tint="#AB3B3B"
+            android:background="@android:color/transparent"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/restartBtn"
-            android:text="Restart"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:src="@android:drawable/ic_media_rew"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:tint="#333333"
+            android:background="@android:color/transparent"/>
 
     </LinearLayout>
 
