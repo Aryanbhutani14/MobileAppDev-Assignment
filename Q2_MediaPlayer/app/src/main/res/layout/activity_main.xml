@@ -2,13 +2,14 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="12dp"
+    android:gravity="center_horizontal"
+    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <Button
         android:id="@+id/openFileBtn"
-        android:text="Open Audio File"
+        android:text="Open Audio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -20,7 +21,7 @@
 
     <Button
         android:id="@+id/openUrlBtn"
-        android:text="Open Video URL"
+        android:text="Open Video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
