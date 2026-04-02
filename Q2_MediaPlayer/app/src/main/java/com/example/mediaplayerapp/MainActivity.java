@@ -7,18 +7,22 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.VideoView;
-import android.media.MediaPlayer;
 import android.content.Intent;
 import android.widget.Toast;
+import android.os.Handler;
+import android.widget.SeekBar;
 
 public class MainActivity extends AppCompatActivity {
 
     Button openFileBtn, openUrlBtn, playBtn, pauseBtn, stopBtn, restartBtn;
     VideoView videoView;
     EditText urlInput;
+    SeekBar progressBar;
+
+    Handler handler = new Handler();
+    Runnable runnable;
 
     Uri mediaUri;
-    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,26 +35,49 @@ public class MainActivity extends AppCompatActivity {
         pauseBtn = findViewById(R.id.pauseBtn);
         stopBtn = findViewById(R.id.stopBtn);
         restartBtn = findViewById(R.id.restartBtn);
+        progressBar = findViewById(R.id.progressBar);
 
         videoView = findViewById(R.id.videoView);
         urlInput = findViewById(R.id.urlInput);
 
         openFileBtn.setOnClickListener(v -> openFile());
-
         openUrlBtn.setOnClickListener(v -> openUrl());
 
-        playBtn.setOnClickListener(v -> play());
+        playBtn.setOnClickListener(v -> {
+            videoView.start();
+            updateProgress();
+        });
 
-        pauseBtn.setOnClickListener(v -> pause());
+        pauseBtn.setOnClickListener(v -> videoView.pause());
 
-        stopBtn.setOnClickListener(v -> stop());
+        stopBtn.setOnClickListener(v -> {
+            videoView.stopPlayback();
+            progressBar.setProgress(0);
+        });
 
-        restartBtn.setOnClickListener(v -> restart());
+        restartBtn.setOnClickListener(v -> {
+            videoView.seekTo(0);
+            videoView.start();
+        });
+
+        // Seek bar dragging
+        progressBar.setOnSeekBarChangeListener(
+                new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        if (fromUser) {
+                            videoView.seekTo(progress);
+                        }
+                    }
+
+                    @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+                    @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+                });
     }
 
     private void openFile() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("audio/*");
+        intent.setType("audio/* video/*");
         startActivityForResult(intent, 1);
     }
 
@@ -69,22 +96,24 @@ public class MainActivity extends AppCompatActivity {
         videoView.setVideoURI(mediaUri);
     }
 
-    private void play() {
-        videoView.start();
+    private void updateProgress() {
+
+        videoView.setOnPreparedListener(mp -> {
+
+            progressBar.setMax(videoView.getDuration());
+
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    progressBar.setProgress(videoView.getCurrentPosition());
+                    handler.postDelayed(this, 500);
+                }
+            };
+
+            handler.postDelayed(runnable, 0);
+        });
     }
 
-    private void pause() {
-        videoView.pause();
-    }
-
-    private void stop() {
-        videoView.stopPlayback();
-    }
-
-    private void restart() {
-        videoView.seekTo(0);
-        videoView.start();
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
