@@ -11,10 +11,12 @@ import android.content.Intent;
 import android.widget.Toast;
 import android.os.Handler;
 import android.widget.SeekBar;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button openFileBtn, openUrlBtn, playBtn, pauseBtn, stopBtn, restartBtn;
+    Button openFileBtn, openUrlBtn;
+    ImageButton playBtn, pauseBtn, stopBtn, restartBtn;
     VideoView videoView;
     EditText urlInput;
     SeekBar progressBar;
@@ -44,15 +46,19 @@ public class MainActivity extends AppCompatActivity {
         openUrlBtn.setOnClickListener(v -> openUrl());
 
         playBtn.setOnClickListener(v -> {
-            videoView.start();
-            updateProgress();
+            if(mediaUri != null){
+                videoView.start();
+                updateProgress();
+            }
         });
 
         pauseBtn.setOnClickListener(v -> videoView.pause());
 
         stopBtn.setOnClickListener(v -> {
-            videoView.stopPlayback();
-            progressBar.setProgress(0);
+            if(videoView != null){
+                videoView.stopPlayback();
+                progressBar.setProgress(0);
+            }
         });
 
         restartBtn.setOnClickListener(v -> {
@@ -98,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateProgress() {
 
+        if(videoView == null) return;
+
         videoView.setOnPreparedListener(mp -> {
 
             progressBar.setMax(videoView.getDuration());
@@ -105,7 +113,11 @@ public class MainActivity extends AppCompatActivity {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    progressBar.setProgress(videoView.getCurrentPosition());
+
+                    if(videoView != null && videoView.isPlaying()){
+                        progressBar.setProgress(videoView.getCurrentPosition());
+                    }
+
                     handler.postDelayed(this, 500);
                 }
             };

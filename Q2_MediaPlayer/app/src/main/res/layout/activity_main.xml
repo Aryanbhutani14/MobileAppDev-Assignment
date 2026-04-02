@@ -79,10 +79,10 @@
 
         <ImageButton
             android:id="@+id/stopBtn"
-            android:src="@android:drawable/ic_media_stop"
+            android:src="@android:drawable/ic_delete"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:tint="#AB3B3B"
+            android:tint="#333333"
             android:background="@android:color/transparent"/>
 
         <ImageButton
