@@ -1,24 +1,52 @@
 package com.example.cameragalleryapp;
 
-import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.widget.Button;
+import android.widget.GridView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    Button captureBtn, openGalleryBtn;
+    GridView gridView;
+
+    ArrayList<Bitmap> images = new ArrayList<>();
+    ImageAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        captureBtn = findViewById(R.id.captureBtn);
+        openGalleryBtn = findViewById(R.id.openGalleryBtn);
+        gridView = findViewById(R.id.gridView);
+
+        adapter = new ImageAdapter(this, images);
+        gridView.setAdapter(adapter);
+
+        captureBtn.setOnClickListener(v -> openCamera());
+    }
+
+    private void openCamera(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent,1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode,Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+
+        if(requestCode==1 && resultCode==RESULT_OK){
+            Bitmap photo = (Bitmap)data.getExtras().get("data");
+            images.add(photo);
+            adapter.notifyDataSetChanged();
+        }
     }
 }
