@@ -6,18 +6,36 @@
     android:background="#FAFAFA"
     android:padding="12dp">
 
-    <ImageButton
-        android:id="@+id/backBtn"
-        android:src="@android:drawable/ic_media_previous"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@android:color/transparent"
-        android:tint="#333333"
-        android:layout_alignParentStart="true"/>
+    <LinearLayout
+        android:id="@+id/header"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/backBtn"
+            android:text="←"
+            android:textSize="24sp"
+            android:textColor="#333333"
+            android:padding="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Image Details"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_below="@id/backBtn"
+        android:layout_below="@id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">

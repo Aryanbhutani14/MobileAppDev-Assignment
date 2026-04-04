@@ -16,7 +16,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
     ImageView imageView;
     TextView imageInfo;
     Button deleteBtn;
-    ImageButton backBtn;
+    TextView backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
