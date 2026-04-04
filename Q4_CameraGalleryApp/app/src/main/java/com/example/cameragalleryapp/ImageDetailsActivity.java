@@ -9,12 +9,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageButton;
 
 public class ImageDetailsActivity extends AppCompatActivity {
 
     ImageView imageView;
     TextView imageInfo;
     Button deleteBtn;
+    ImageButton backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,9 @@ public class ImageDetailsActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         imageInfo = findViewById(R.id.imageInfo);
         deleteBtn = findViewById(R.id.deleteBtn);
+        backBtn = findViewById(R.id.backBtn);
+
+        backBtn.setOnClickListener(v -> finish());
 
         Bitmap bitmap = getIntent().getParcelableExtra("image");
 
