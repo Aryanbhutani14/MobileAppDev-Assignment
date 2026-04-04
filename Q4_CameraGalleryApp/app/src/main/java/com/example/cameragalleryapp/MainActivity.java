@@ -1,7 +1,6 @@
 package com.example.cameragalleryapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
@@ -12,8 +11,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.GridView;
-
+import android.os.Environment;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -69,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(requestCode==1 && resultCode==RESULT_OK){
             Bitmap photo = (Bitmap)data.getExtras().get("data");
+            saveImage(photo);
+
             images.add(photo);
             adapter.notifyDataSetChanged();
         }
@@ -85,6 +89,33 @@ public class MainActivity extends AppCompatActivity {
 
                 openCamera();
             }
+        }
+    }
+
+    private void saveImage(Bitmap bitmap) {
+        try {
+
+            File folder = new File(
+                    Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_PICTURES),
+                    "CameraGalleryApp");
+
+            if (!folder.exists()) folder.mkdirs();
+
+            File file = new File(folder,
+                    "IMG_" + System.currentTimeMillis() + ".jpg");
+
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+
+            Toast.makeText(this,
+                    "Saved to Gallery",
+                    Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
