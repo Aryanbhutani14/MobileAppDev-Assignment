@@ -3,9 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="20dp"
+    android:padding="24dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <TextView
+        android:text="Currency Converter"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/amount"
@@ -16,20 +24,21 @@
 
     <Spinner
         android:id="@+id/fromCurrency"
+        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Spinner
         android:id="@+id/toCurrency"
+        android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
 
     <Button
         android:id="@+id/convertBtn"
         android:text="Convert"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#2196F3"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#2D8CFF"
         android:textColor="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -37,18 +46,27 @@
     <Button
         android:id="@+id/settingsBtn"
         android:text="Settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:backgroundTint="#0B1243"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="Result"
+        android:textSize="16sp"
+        android:layout_marginTop="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/result"
-        android:text="Result"
-        android:textSize="22sp"
-        android:layout_marginTop="40dp"
+        android:text="0.00"
+        android:textSize="20sp"
         android:gravity="center"
+        android:padding="14dp"
+        android:layout_marginTop="6dp"
+        android:background="#E5E5E5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

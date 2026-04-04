@@ -52,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void convert(){
 
+        if(amount.getText().toString().isEmpty()){
+            result.setText("Enter amount");
+            return;
+        }
+
         double amt = Double.parseDouble(amount.getText().toString());
 
         String from = fromCurrency.getSelectedItem().toString();
