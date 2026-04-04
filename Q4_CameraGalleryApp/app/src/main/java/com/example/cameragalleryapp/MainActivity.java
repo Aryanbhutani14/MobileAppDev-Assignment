@@ -35,6 +35,16 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ImageAdapter(this, images);
         gridView.setAdapter(adapter);
 
+        gridView.setOnItemClickListener((parent, view, position, id) -> {
+
+            Intent intent = new Intent(MainActivity.this,
+                    ImageDetailsActivity.class);
+
+            intent.putExtra("image", images.get(position));
+
+            startActivity(intent);
+        });
+
         captureBtn.setOnClickListener(v -> openCamera());
     }
 
