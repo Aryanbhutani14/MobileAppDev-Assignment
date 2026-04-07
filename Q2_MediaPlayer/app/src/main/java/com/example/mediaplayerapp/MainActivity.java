@@ -12,6 +12,8 @@ import android.widget.Toast;
 import android.os.Handler;
 import android.widget.SeekBar;
 import android.widget.ImageButton;
+import android.view.View;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     VideoView videoView;
     EditText urlInput;
     SeekBar progressBar;
+    LinearLayout controlLayout;
 
     Handler handler = new Handler();
     Runnable runnable;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         stopBtn = findViewById(R.id.stopBtn);
         restartBtn = findViewById(R.id.restartBtn);
         progressBar = findViewById(R.id.progressBar);
+        controlLayout = findViewById(R.id.controlLayout);
 
         videoView = findViewById(R.id.videoView);
         urlInput = findViewById(R.id.urlInput);
@@ -91,15 +95,17 @@ public class MainActivity extends AppCompatActivity {
 
         String url = urlInput.getText().toString();
 
-        if(url.contains("youtube.com")){
-            Toast.makeText(this,
-                    "YouTube links not supported",
-                    Toast.LENGTH_SHORT).show();
+        if(url.isEmpty()){
+            Toast.makeText(this,"Enter URL first",Toast.LENGTH_SHORT).show();
             return;
         }
 
         mediaUri = Uri.parse(url);
         videoView.setVideoURI(mediaUri);
+
+        videoView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        controlLayout.setVisibility(View.VISIBLE);
     }
 
     private void updateProgress() {
@@ -133,6 +139,10 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             mediaUri = data.getData();
             videoView.setVideoURI(mediaUri);
+
+            videoView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
+            controlLayout.setVisibility(View.VISIBLE);
         }
     }
 }
