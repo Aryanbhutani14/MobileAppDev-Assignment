@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="#F5F5F5">
 
-    <!-- TOP NOTCH HEADER -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -17,7 +16,6 @@
         android:textColor="#FFFFFF"
         android:background="#3F51B5"/>
 
-    <!-- CENTER CONTENT -->
     <LinearLayout
         android:orientation="vertical"
         android:gravity="center_horizontal"
@@ -62,8 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <!-- VIDEO VIEW (HIDDEN INITIALLY) -->
-        <androidx.media3.ui.PlayerView
+        <VideoView
             android:id="@+id/playerView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -91,7 +88,6 @@
                 android:src="@android:drawable/ic_media_play"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:tint="#333333"
                 android:background="@android:color/transparent"/>
 
             <ImageButton
@@ -99,7 +95,6 @@
                 android:src="@android:drawable/ic_media_pause"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:tint="#333333"
                 android:background="@android:color/transparent"/>
 
             <ImageButton
@@ -107,7 +102,6 @@
                 android:src="@android:drawable/ic_delete"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:tint="#333333"
                 android:background="@android:color/transparent"/>
 
             <ImageButton
@@ -115,7 +109,6 @@
                 android:src="@android:drawable/ic_media_rew"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:tint="#333333"
                 android:background="@android:color/transparent"/>
 
         </LinearLayout>
