@@ -1,22 +1,26 @@
 package com.example.cameragalleryapp;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
 
-import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ImageButton;
+
+import java.io.File;
+import java.util.Date;
 
 public class ImageDetailsActivity extends AppCompatActivity {
 
     ImageView imageView;
     TextView imageInfo;
-    Button deleteBtn;
-    TextView backBtn;
+    View deleteBtn;
+
+    String path;
+    File file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,30 +30,37 @@ public class ImageDetailsActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         imageInfo = findViewById(R.id.imageInfo);
         deleteBtn = findViewById(R.id.deleteBtn);
-        backBtn = findViewById(R.id.backBtn);
 
-        backBtn.setOnClickListener(v -> finish());
+        findViewById(R.id.backBtn).setOnClickListener(v -> finish());
 
-        Bitmap bitmap = getIntent().getParcelableExtra("image");
+        path = getIntent().getStringExtra("path");
+        file = new File(path);
 
-        imageView.setImageBitmap(bitmap);
-        imageInfo.setText("Captured Image");
+        imageView.setImageBitmap(BitmapFactory.decodeFile(path));
 
-        deleteBtn.setOnClickListener(v -> showDeleteDialog());
+        String info =
+                "Name: " + file.getName() +
+                        "\nPath: " + path +
+                        "\nSize: " + file.length()/1024 + " KB" +
+                        "\nType: " + file.getName().substring(file.getName().lastIndexOf(".")) +
+                        "\nDate: " + new Date(file.lastModified());
+
+        imageInfo.setText(info);
+
+        deleteBtn.setOnClickListener(v -> deleteImage());
     }
 
-    private void showDeleteDialog(){
+    private void deleteImage() {
 
         new AlertDialog.Builder(this)
                 .setTitle("Delete Image")
-                .setMessage("Are you sure you want to delete this image?")
-                .setPositiveButton("Yes", (dialog, which) -> {
+                .setMessage("Are you sure?")
+                .setPositiveButton("Yes", (d,w) -> {
 
-                    Toast.makeText(this,
-                            "Image deleted",
-                            Toast.LENGTH_SHORT).show();
-
+                    file.delete();
+                    Toast.makeText(this,"Deleted",Toast.LENGTH_SHORT).show();
                     finish();
+
                 })
                 .setNegativeButton("Cancel", null)
                 .show();

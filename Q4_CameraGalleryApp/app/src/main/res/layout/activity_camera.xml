@@ -3,53 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#F5F6FA"
-    android:padding="12dp"
+    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/backBtn"
-        android:text="← Image Details"
+        android:text="← Camera"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:layout_marginBottom="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:scaleType="centerCrop"
-        android:background="#ddd"/>
-
-    <TextView
-        android:id="@+id/imageInfo"
-        android:textSize="14sp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="15dp"
+        android:layout_height="70dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp">
 
         <LinearLayout
-            android:id="@+id/deleteBtn"
+            android:id="@+id/captureBtn"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:text="🗑 Delete Image"
+                android:text="📷 Capture Image"
                 android:textSize="16sp"
                 android:textColor="#111"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

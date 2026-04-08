@@ -16,18 +16,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CameraGalleryApp">
+        <activity android:name=".ImageDetailsActivity"/>
+
+        <!-- HOME PAGE (LAUNCHER) -->
         <activity
-            android:name=".ImageDetailsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".HomeActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- OTHER PAGES -->
+        <activity android:name=".CameraActivity"/>
+        <activity android:name=".GalleryActivity"/>
+        <activity android:name=".FolderActivity"/>
+        <activity android:name=".FileImageAdapter"/>
+
     </application>
 
 </manifest>
