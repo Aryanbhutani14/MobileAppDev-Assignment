@@ -12,7 +12,9 @@ import android.hardware.SensorManager;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
-    TextView accelText, lightText, proximityText;
+    TextView accelStatus, accelX, accelY, accelZ;
+    TextView lightStatus, lightReading;
+    TextView proximityStatus, proximityReading;
 
     SensorManager sensorManager;
     Sensor accelerometer, lightSensor, proximitySensor;
@@ -22,24 +24,40 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        accelText = findViewById(R.id.accelText);
-        lightText = findViewById(R.id.lightText);
-        proximityText = findViewById(R.id.proximityText);
+        accelStatus = findViewById(R.id.accelStatus);
+        accelX = findViewById(R.id.accelX);
+        accelY = findViewById(R.id.accelY);
+        accelZ = findViewById(R.id.accelZ);
+
+        lightStatus = findViewById(R.id.lightStatus);
+        lightReading = findViewById(R.id.lightReading);
+
+        proximityStatus = findViewById(R.id.proximityStatus);
+        proximityReading = findViewById(R.id.proximityReading);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+
+        accelStatus.setText(accelerometer != null ? "Status: Available" : "Status: Not Available");
+        lightStatus.setText(lightSensor != null ? "Status: Available" : "Status: Not Available");
+        proximityStatus.setText(proximitySensor != null ? "Status: Available" : "Status: Not Available");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL);
+        if(accelerometer != null)
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
+        if(lightSensor != null)
+            sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+        if(proximitySensor != null)
+            sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -52,21 +70,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
 
         if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
-            float x = event.values[0];
-            float y = event.values[1];
-            float z = event.values[2];
-
-            accelText.setText("Accelerometer:\nX: " + x + "\nY: " + y + "\nZ: " + z);
+            accelX.setText("X: " + event.values[0]);
+            accelY.setText("Y: " + event.values[1]);
+            accelZ.setText("Z: " + event.values[2]);
         }
 
         if(event.sensor.getType() == Sensor.TYPE_LIGHT){
-            float light = event.values[0];
-            lightText.setText("Light: " + light);
+            lightReading.setText("Reading: " + event.values[0]);
         }
 
         if(event.sensor.getType() == Sensor.TYPE_PROXIMITY){
-            float proximity = event.values[0];
-            proximityText.setText("Proximity: " + proximity);
+            proximityReading.setText("Reading: " + event.values[0]);
         }
     }
 
@@ -75,3 +89,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 }
+
+
+
+
+
+
+

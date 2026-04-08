@@ -6,27 +6,28 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.VideoView;
 import android.content.Intent;
 import android.widget.Toast;
-import android.os.Handler;
 import android.widget.SeekBar;
 import android.widget.ImageButton;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.common.MediaItem;
+import androidx.media3.ui.PlayerView;
+
+
 public class MainActivity extends AppCompatActivity {
 
     Button openFileBtn, openUrlBtn;
     ImageButton playBtn, pauseBtn, stopBtn, restartBtn;
-    VideoView videoView;
+    PlayerView playerView;
     EditText urlInput;
     SeekBar progressBar;
     LinearLayout controlLayout;
 
-    Handler handler = new Handler();
-    Runnable runnable;
-
+    ExoPlayer player;
     Uri mediaUri;
 
     @Override
@@ -43,57 +44,38 @@ public class MainActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         controlLayout = findViewById(R.id.controlLayout);
 
-        videoView = findViewById(R.id.videoView);
+        playerView = findViewById(R.id.playerView);
         urlInput = findViewById(R.id.urlInput);
+
+        player = new ExoPlayer.Builder(this).build();
+        playerView.setPlayer(player);
 
         openFileBtn.setOnClickListener(v -> openFile());
         openUrlBtn.setOnClickListener(v -> openUrl());
 
-        playBtn.setOnClickListener(v -> {
-            if(mediaUri != null){
-                videoView.start();
-                updateProgress();
-            }
-        });
+        playBtn.setOnClickListener(v -> player.play());
 
-        pauseBtn.setOnClickListener(v -> videoView.pause());
+        pauseBtn.setOnClickListener(v -> player.pause());
 
-        stopBtn.setOnClickListener(v -> {
-            if(videoView != null){
-                videoView.stopPlayback();
-                progressBar.setProgress(0);
-            }
-        });
+        stopBtn.setOnClickListener(v -> player.stop());
 
         restartBtn.setOnClickListener(v -> {
-            videoView.seekTo(0);
-            videoView.start();
+            player.seekTo(0);
+            player.play();
         });
-
-        // Seek bar dragging
-        progressBar.setOnSeekBarChangeListener(
-                new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        if (fromUser) {
-                            videoView.seekTo(progress);
-                        }
-                    }
-
-                    @Override public void onStartTrackingTouch(SeekBar seekBar) {}
-                    @Override public void onStopTrackingTouch(SeekBar seekBar) {}
-                });
     }
 
     private void openFile() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("audio/* video/*");
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_MIME_TYPES,
+                new String[]{"audio/*","video/*"});
         startActivityForResult(intent, 1);
     }
 
     private void openUrl() {
 
-        String url = urlInput.getText().toString();
+        String url = urlInput.getText().toString().trim();
 
         if(url.isEmpty()){
             Toast.makeText(this,"Enter URL first",Toast.LENGTH_SHORT).show();
@@ -101,35 +83,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mediaUri = Uri.parse(url);
-        videoView.setVideoURI(mediaUri);
 
-        videoView.setVisibility(View.VISIBLE);
+        playerView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         controlLayout.setVisibility(View.VISIBLE);
-    }
 
-    private void updateProgress() {
-
-        if(videoView == null) return;
-
-        videoView.setOnPreparedListener(mp -> {
-
-            progressBar.setMax(videoView.getDuration());
-
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-
-                    if(videoView != null && videoView.isPlaying()){
-                        progressBar.setProgress(videoView.getCurrentPosition());
-                    }
-
-                    handler.postDelayed(this, 500);
-                }
-            };
-
-            handler.postDelayed(runnable, 0);
-        });
+        MediaItem mediaItem = MediaItem.fromUri(mediaUri);
+        player.setMediaItem(mediaItem);
+        player.prepare();
+        player.play();
     }
 
     @Override
@@ -137,12 +99,23 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            mediaUri = data.getData();
-            videoView.setVideoURI(mediaUri);
 
-            videoView.setVisibility(View.VISIBLE);
+            mediaUri = data.getData();
+
+            playerView.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.VISIBLE);
             controlLayout.setVisibility(View.VISIBLE);
+
+            MediaItem mediaItem = MediaItem.fromUri(mediaUri);
+            player.setMediaItem(mediaItem);
+            player.prepare();
+            player.play();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        player.release();
     }
 }
